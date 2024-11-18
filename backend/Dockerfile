@@ -19,7 +19,7 @@ RUN mvn clean package -DskipTests
 
 # Runtime Stage
 # Use the specified version for the runtime stage
-FROM eclipse-temurin:21-jre as runtime
+FROM eclipse-temurin:21-jre AS runtime
 
 # Set the working directory
 WORKDIR /app
@@ -31,4 +31,4 @@ COPY --from=builder /app/target/taskmanagementtool-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 
 # Run the Spring Boot app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]

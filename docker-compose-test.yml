@@ -2,31 +2,21 @@ services:
   frontend:
     build:
       context: ./frontend  # Path to the frontend Dockerfile
-      dockerfile: Dockerfile  # Dockerfile name
-
-    ports:
-      - "3001:80"  # Map host port 3001 to container port 80
+    command: npm run test #run node test
     depends_on:
       - backend  # Ensure the backend starts before the frontend
 
   backend:
     build:
       context: ./backend  # Path to the backend Dockerfile
-      dockerfile: Dockerfile  # Dockerfile name
-    ports:
-      - "8083:8080"
-      - "5005:5005"
+    command: mvn test  # run maven test
     environment:
       CORS_ALLOWED_ORIGINS: "http://localhost:3001"  # Replace with your allowed origins
       CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE"
       CORS_ALLOWED_HEADERS: "Content-Type,Authorization"
-      JWT_SECRET_KEY: "QXrudZMnSHAoLcJu1G1TfrUC+M7NoYRrhNHsWM4KPo7j/iMrQJ5Bs5w+3hetTcDfmXHmUs4ipQFRPHnNj5vUBQ=="
+      JWT_SECRET_KEY: "jxgEQeXHuRq3VBbaYFLkAFkazF1C4Un4"
     volumes:
       - sqlite_data_task_management_tool:/data
 
 volumes:
   sqlite_data_task_management_tool:
-
-networks:
-  default:
-    driver: bridge  # Use the default bridge network
